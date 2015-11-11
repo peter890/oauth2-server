@@ -8,9 +8,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Zalogowany do OAuthGate </title>
+<title>Java Facebook Login</title>
 </head>
 <body style="text-align: center; margin: 0 auto;">
-	Zalogowany!
+	<div
+		style="margin: 0 auto; background-image: url(./img/fbloginbckgrnd.jpg); height: 360px; width: 610px;">
+		<a href="<%=fbConnection.getFBAuthUrl()%>"> <img
+			style="margin-top: 138px;" src="./img/facebookloginbutton.png" />
+		</a>
+		<br>
+		<a href="<%=fbConnection.getGithubAuthUrl()%>"> GitHub</a>
+	</div>
 </body>
 </html>

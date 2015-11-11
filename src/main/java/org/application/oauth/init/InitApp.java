@@ -15,5 +15,4 @@ public class InitApp {
 	static{
 		InitApp.getAppContext();
 	}
-
 }

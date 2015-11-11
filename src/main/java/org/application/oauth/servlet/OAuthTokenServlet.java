@@ -84,8 +84,6 @@ public class OAuthTokenServlet extends HttpServlet {
 				pw.flush();
 				pw.close();
 			} catch (OAuthSystemException e) {
-				// TODO Auto-generated catch block
-				log("dupa dupa", e);
 				//e.printStackTrace();
 			}
 

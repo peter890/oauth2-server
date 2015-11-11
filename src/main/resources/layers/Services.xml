@@ -2,4 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="accessTokenService" class="org.application.services.token.AccessTokenServiceImpl">
+		<property name="authorizationDAO" ref="authorizationDAO"/>
+	</bean>
+	<bean id="userSessionService" class="org.application.services.UserSessionService">
+<!-- 		<property name="sessionDao" ref="sessionDAO"/> -->
+	</bean>
 </beans>

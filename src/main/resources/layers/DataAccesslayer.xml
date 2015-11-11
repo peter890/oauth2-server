@@ -6,4 +6,5 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<bean id="customerDAO" class="org.application.jpa.dao.CustomerDAO" />
 	<bean id="userDAO" class="org.application.jpa.dao.UserDAO" />
 	<bean id="authorizationDAO" class="org.application.jpa.dao.AuthorizationDAO" />
+	<bean id="sessionDAO" class="org.application.jpa.dao.SessionDao" />
 </beans>

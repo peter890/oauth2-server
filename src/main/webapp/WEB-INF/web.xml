@@ -3,25 +3,74 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  <servlet>
-  	<servlet-name>OAuthServer</servlet-name>
-  	<display-name>OAuthServer</display-name>
-  	<description></description>
-  	<servlet-class>org.application.oauth.servlet.OAuthServer</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>OAuthTokenServlet</servlet-name>
-  	<display-name>OAuthTokenServlet</display-name>
-  	<description></description>
-  	<servlet-class>org.application.oauth.servlet.OAuthTokenServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>OAuthServer</servlet-name>
-  	<url-pattern>/auth</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>OAuthTokenServlet</servlet-name>
-  	<url-pattern>/access_token</url-pattern>
-  </servlet-mapping>
+	<display-name>Archetype Created Web Application</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<listener>
+		<listener-class>org.application.oauth.init.SpringApplicationContextListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>LoginSSOFilter</filter-name>
+		<filter-class>org.application.oauth.LoginSSOFilter</filter-class>
+		<init-param>
+			<param-name>EXCLUDE_URLS</param-name>
+			<param-value>/login*;/img*;/FbOAuthServlet</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>LoginSSOFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>OAuthServer</servlet-name>
+		<display-name>OAuthServer</display-name>
+		<description></description>
+		<servlet-class>org.application.oauth.servlet.OAuthServer</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>OAuthTokenServlet</servlet-name>
+		<display-name>OAuthTokenServlet</display-name>
+		<description></description>
+		<servlet-class>org.application.oauth.servlet.OAuthTokenServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>FbOAuthServlet</servlet-name>
+		<display-name>FbOAuthServlet</display-name>
+		<description></description>
+		<servlet-class>org.social.facebook.FbOAuthServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>LoginBaseServlet</servlet-name>
+		<display-name>LoginBaseServlet</display-name>
+		<description></description>
+		<servlet-class>org.application.oauth.servlet.LoginBaseServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>OAuthServer</servlet-name>
+		<url-pattern>/oauth/authorizationcode</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>OAuthTokenServlet</servlet-name>
+		<url-pattern>/oauth/accesstoken</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>FbOAuthServlet</servlet-name>
+		<url-pattern>/FbOAuthServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>LoginBaseServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
 </web-app>
