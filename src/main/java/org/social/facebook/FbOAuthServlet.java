@@ -3,21 +3,12 @@ package org.social.facebook;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.application.jpa.model.Session;
-import org.application.jpa.model.SocialUser;
-import org.application.oauth.init.InitApp;
 import org.application.oauth.servlet.AbstractServlet;
-import org.application.services.UserSessionService;
 import org.application.services.api.IUserSessionService;
-import org.core.common.enums.CookiesName;
-import org.core.common.utils.CookieManager;
-import org.social.OAuthProcessorFactory;
-import org.social.api.IOAuthProcessor;
 
 /**
  * Servlet implementation class FbOAuthServlet
@@ -45,21 +36,21 @@ public class FbOAuthServlet extends AbstractServlet {
 //		}
 //		FacebookConnect fbConnect = new FacebookConnect();
 //		String accessToken = fbConnect.getAccessToken(code);
-		IOAuthProcessor processor = OAuthProcessorFactory.createProcessorByName(request.getParameter("sysname"));
-		try {
-			processor.process(request, response);
-			SocialUser socialUser = processor.getSocialUserData();
-			ServletOutputStream out = response.getOutputStream();
-			out.println(socialUser.toString());
-			Session session = new Session();
-			session.setSocialUser(socialUser);
-			//session.setUser(socialUser.getUser());
-			sessionService = InitApp.getAppContext().getBean(UserSessionService.class);
-			session = sessionService.createSessionWithNewUser(session);
-			CookieManager.setCookie(response, CookiesName.SSID, session.getSsnId(), true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		IOAuthProcessor processor = OAuthProcessorFactory.createProcessorByName(request.getParameter("sysname"));
+//		try {
+//			processor.process(request, response);
+//			SocialUser socialUser = processor.getSocialUserData();
+//			ServletOutputStream out = response.getOutputStream();
+//			out.println(socialUser.toString());
+//			Session session = new Session();
+//			session.setSocialUser(socialUser);
+//			//session.setUser(socialUser.getUser());
+//			sessionService = InitApp.getAppContext().getBean(UserSessionService.class);
+//			session = sessionService.createSessionWithNewUser(session);
+//			CookieManager.setCookie(response, CookiesName.SSID, session.getSsnId(), true);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 //		String accessToken = processor.getAccessToken();
 //		FBGraph fbGraph = new FBGraph(accessToken);

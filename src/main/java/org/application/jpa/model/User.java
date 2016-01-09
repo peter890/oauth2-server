@@ -32,7 +32,7 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, name = "userId")
 	public Long getUserId() {
 		return userId;
 	}

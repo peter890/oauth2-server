@@ -5,6 +5,7 @@ package org.application.oauth.servlet;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
@@ -13,25 +14,33 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.application.jpa.model.Session;
 import org.application.jpa.model.SocialUser;
-import org.application.oauth.init.InitApp;
-import org.application.services.UserSessionService;
 import org.application.services.api.IUserSessionService;
 import org.config.Configuration;
 import org.config.Configuration.Parameter;
 import org.core.common.enums.CookiesName;
 import org.core.common.exceptions.CookieNotFoundException;
 import org.core.common.utils.CookieManager;
-import org.social.OAuthProcessorFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.social.api.IOAuthProcessor;
+import org.social.api.IOAuthProcessorFactory;
 
 /**
  * @author piotrek
  *
  */
 public class LoginBaseServlet extends AbstractServlet {
+	/**
+	 * Logger.
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(LoginBaseServlet.class) ;
+	@Inject
 	private IUserSessionService sessionService;
+	
+	@Inject
+	private IOAuthProcessorFactory processorFactory;
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.GenericServlet#init()
@@ -39,7 +48,7 @@ public class LoginBaseServlet extends AbstractServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		sessionService = InitApp.getAppContext().getBean(UserSessionService.class);
+		//sessionService = InitApp.getAppContext().getBean(UserSessionService.class);
 	}
 
 	/**
@@ -57,14 +66,18 @@ public class LoginBaseServlet extends AbstractServlet {
 	@Override
 	protected void doProcess(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
+		logger.debug("doProcess: {}", "START");
 		super.doProcess(request, response);
 		String sessionExpiredRedirect = (String) request.getAttribute("sessionExpired");
+		String sysname = request.getParameter("sysname");
 		// if (null != sessionExpiredRedirect &&
 		// "Y".equals(sessionExpiredRedirect)) {
 		//
 		// }
-		IOAuthProcessor processor = OAuthProcessorFactory.createProcessorByName(request.getParameter("sysname"));
-		if (processor != null) {
+		logger.debug("doProcess|sesionExpired: {}", sessionExpiredRedirect);
+		logger.debug("doProcess|sysname: {}", sysname);
+		IOAuthProcessor processor;// = processorFactory.createProcessorByName(request.getParameter("sysname"));//OAuthProcessorFactory.createProcessorByName(request.getParameter("sysname"));
+		if ((null != sysname) && (processor = processorFactory.createProcessorByName(sysname)) != null) {
 			try {
 				processor.process(request, response);
 				SocialUser socialUser = processor.getSocialUserData();
@@ -73,7 +86,7 @@ public class LoginBaseServlet extends AbstractServlet {
 				Session session = new Session();
 				session.setSocialUser(socialUser);
 
-				sessionService = InitApp.getAppContext().getBean(UserSessionService.class);
+				//sessionService = InitApp.getAppContext().getBean(UserSessionService.class);
 				session = sessionService.createSessionWithNewUser(session);
 
 				Cookie cookie = new Cookie(CookiesName.SSID.getValue(), session.getSsnId());
@@ -133,8 +146,12 @@ public class LoginBaseServlet extends AbstractServlet {
 
 	private void redirectToLoginPage(final HttpServletRequest request, final HttpServletResponse response) {
 		try {
-			response.sendRedirect("login.jsp");
+			//response.sendRedirect("login.jsp");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServletException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

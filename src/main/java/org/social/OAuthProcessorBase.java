@@ -20,17 +20,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.application.jpa.model.SocialUser;
 import org.application.jpa.model.User;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.social.api.IOAuthProcessor;
 import org.social.exceptions.NotFoundAuthorizationCodeException;
 
 /**
- * @author piotrek Klasa bazowa processora OAuth.
+ * @author piotrek 
+ * Klasa bazowa processora OAuth.
  */
 public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	/**
+	 * Logger.
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(OAuthProcessorBase.class);
+	
+	/**
 	 * Zwrotny adres Url.
 	 */
-	private String returnRedirectUrl = "http://oauthgate.com:8080/server/login";
+	private String returnRedirectUrl = "http://oauthgate.com:8080/server/oauth/login";
 
 	/**
 	 * AccessToken.
@@ -71,8 +79,10 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	 * Procesuje autentykacjê.
 	 */
 	public void process(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		logger.debug("process|START");
 		String code = getAuthorizationCode(request);
 		accessToken = getAccessToken(code);
+		logger.debug("process|STOP");
 	}
 
 	/**
@@ -82,6 +92,7 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	 * @throws NotFoundAuthorizationCodeException
 	 */
 	private String getAuthorizationCode(final HttpServletRequest request) throws NotFoundAuthorizationCodeException {
+		logger.debug("getAuthorizationCode|START");
 		String code = request.getParameter("code");
 		if (code == null || code.equals("")) {
 			throw new NotFoundAuthorizationCodeException();
@@ -98,6 +109,7 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	 * @throws Exception
 	 */
 	private String getAccessToken(final String code) throws Exception {
+		logger.debug("getAccessToken|START");
 		URL accessTokenURL = new URL(prepareAccessTokenUrl(code));
 		URLConnection connection = accessTokenURL.openConnection();
 
@@ -124,6 +136,7 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	 * @throws UnsupportedEncodingException
 	 */
 	private String prepareAccessTokenUrl(final String code) throws UnsupportedEncodingException {
+		logger.debug("prepareAccessTokenUrl|START");
 		StringBuilder accessTokenUrl = new StringBuilder();
 		accessTokenUrl.append(getBaseAccessTokenUrl()).append("?");
 		accessTokenUrl.append("client_id=").append(getClientId());
@@ -144,6 +157,7 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	}
 
 	public SocialUser getSocialUserData() throws IOException {
+		logger.debug("getSocialUserData|START");
 		String url = getGraphUrl() + getAccessToken();
 
 		URL u;
@@ -159,12 +173,12 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 				sb.append(line + "\n");
 			}
 
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (final MalformedURLException e1) {
+			logger.error("getSocialUserData", e1);
+		} catch (final UnsupportedEncodingException e1) {
+			logger.error("getSocialUserData", e1);
+		} catch (final IOException e) {
+			logger.error("getSocialUserData", e);
 		} finally {
 			in.close();
 		}
@@ -193,6 +207,7 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	 * @return
 	 */
 	private SocialUser graphDataConvert(final JSONObject jsonObject) {
+		logger.debug("graphDataConvert|START");
 		SocialUser user = new SocialUser();
 		Map<String, String> fieldsMapping = getFieldsMapping();
 		user.setIdentityProvider(getProcessorType());

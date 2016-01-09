@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.application.oauth.init.InitApp;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Abstrakcyjny servlet udostêpniaj¹cy ApplicationContext.
@@ -29,6 +30,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	 * Spring ApplicationContext.
 	 */
 	protected ApplicationContext applicationContext;
+	protected AutowireCapableBeanFactory ctx;
 
 	/*
 	 * (non-Javadoc)
@@ -38,7 +40,11 @@ public abstract class AbstractServlet extends HttpServlet {
 	@Override
 	public void init(final ServletConfig config) throws ServletException {
 		super.init(config);
-		applicationContext = InitApp.getAppContext();//(ApplicationContext) config.getServletContext().getAttribute("applicationContext");
+		//applicationContext = ((ApplicationContext) config.getServletContext().getAttribute("applicationContext")).getAutowireCapableBeanFactory();
+		//applicationContext.getApplicationName();
+		ctx = ((ApplicationContext) getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).getAutowireCapableBeanFactory();
+	    //The following line does the magic
+	    ctx.autowireBean(this);
 	}
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

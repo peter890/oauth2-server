@@ -2,22 +2,35 @@
  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                            http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>Archetype Created Web Application</display-name>
-	
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
+	<!-- Configurations for the root application context (parent context) -->
 	<listener>
-		<listener-class>org.application.oauth.init.SpringApplicationContextListener</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/classes/config/ApplicationContext.xml
+		</param-value>
+	</context-param>
+
+	<!-- <listener> -->
+	<!-- <listener-class>org.application.oauth.init.SpringApplicationContextListener</listener-class> -->
+	<!-- </listener> -->
 	<filter>
 		<filter-name>LoginSSOFilter</filter-name>
 		<filter-class>org.application.oauth.LoginSSOFilter</filter-class>
 		<init-param>
 			<param-name>EXCLUDE_URLS</param-name>
-			<param-value>/login*;/img*;/FbOAuthServlet</param-value>
+			<param-value>/login*;/img*;/accesstoken</param-value>
 		</init-param>
 	</filter>
 
@@ -25,6 +38,7 @@
 		<filter-name>LoginSSOFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
 
 	<servlet>
 		<servlet-name>OAuthServer</servlet-name>
@@ -56,12 +70,12 @@
 
 	<servlet-mapping>
 		<servlet-name>OAuthServer</servlet-name>
-		<url-pattern>/oauth/authorizationcode</url-pattern>
+		<url-pattern>/authorizationcode</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>OAuthTokenServlet</servlet-name>
-		<url-pattern>/oauth/accesstoken</url-pattern>
+		<url-pattern>/accesstoken</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

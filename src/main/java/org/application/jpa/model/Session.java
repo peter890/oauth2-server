@@ -9,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.Table;
 
 /**
  * @author piotrek
@@ -26,6 +28,7 @@ import javax.persistence.NamedNativeQuery;
 @NamedNativeQueries({
 	@NamedNativeQuery(name = "findBySsnId", query = "SELECT * FROM Session s WHERE s.ssnId = :ssnId", resultClass = Session.class)
 })
+@Table(indexes = {@Index(columnList = "ssnId")})
 public class Session implements Serializable {
 	/**
 	 * UID.

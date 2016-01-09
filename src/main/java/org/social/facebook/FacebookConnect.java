@@ -26,7 +26,7 @@ public class FacebookConnect {
 		String clientId = Configuration.getConfiguration().getParameterValue(Parameter.FacebookClientId);
 		try {
 			OAuthClientRequest request = OAuthClientRequest.authorizationProvider(OAuthProviderType.FACEBOOK)
-					.setClientId(clientId).setRedirectURI("http://oauthgate.com:8080/server/login?sysname=facebook")
+					.setClientId(clientId).setRedirectURI("http://oauthgate.com:8080/server/oauth/login?sysname=facebook")
 					.setResponseType(ResponseType.CODE.toString()).setScope("user_about_me, email, public_profile").buildQueryMessage();
 			return request.getLocationUri();
 		} catch (OAuthSystemException e) {
@@ -39,7 +39,7 @@ public class FacebookConnect {
 		String clientId = Configuration.getConfiguration().getParameterValue(Parameter.GithubClientId);
 		try {
 			OAuthClientRequest request = OAuthClientRequest.authorizationProvider(OAuthProviderType.GITHUB)
-					.setClientId(clientId).setRedirectURI("http://oauthgate.com:8080/server/login?sysname=GitHub")
+					.setClientId(clientId).setRedirectURI("http://oauthgate.com:8080/server/oauth/login?sysname=GitHub")
 					.setResponseType(ResponseType.CODE.toString()).setScope("user").buildQueryMessage();
 			return request.getLocationUri();
 		} catch (OAuthSystemException e) {

@@ -15,6 +15,7 @@ import org.application.jpa.dao.api.IUserDAO;
 import org.application.jpa.model.Session;
 import org.application.jpa.model.SocialUser;
 import org.application.jpa.model.User;
+import org.application.services.api.ICustomerService;
 import org.application.services.api.IUserSessionService;
 import org.config.Configuration;
 import org.config.Configuration.Parameter;
@@ -41,6 +42,8 @@ public class UserSessionService implements IUserSessionService {
 
 	@Inject
 	private ISocialUserDAO socialUserDao;
+	@Inject
+	private ICustomerService customerService;
 
 	/*
 	 * (non-Javadoc)
@@ -50,6 +53,7 @@ public class UserSessionService implements IUserSessionService {
 	 * (java.lang.String)
 	 */
 	public Session createNewSocialUserSession(final Session session) throws SocialUserNotExistException {
+		//customerService.createNewCustomer("Client1");
 		//String input = socialUserId.toString();// + (new Date()).getTime();
 		UUID sessionIdGenerator = UUID.randomUUID();
 		// TODO: dopisac weryfikacjê unikalnoœci wygenerowanego sessionId.

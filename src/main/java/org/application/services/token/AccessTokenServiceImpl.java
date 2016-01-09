@@ -3,14 +3,19 @@
  */
 package org.application.services.token;
 
+import javax.inject.Inject;
+
 import org.application.jpa.dao.api.IAuthorizationDAO;
 import org.application.services.api.IAccessTokenService;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author piotrek
  *
  */
+@Repository
 public class AccessTokenServiceImpl implements IAccessTokenService {
+	@Inject
 	private IAuthorizationDAO authorizationDAO;
 
 	/* (non-Javadoc)

@@ -15,7 +15,7 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
 	
 	<!-- Auto scan the components -->
 	<context:annotation-config/>
-	<context:component-scan base-package="org.application" />
+	<context:component-scan base-package="org.social, org.application" />
 	
 	<import resource="../database/JPA.xml"/>
 	<import resource="../layers/DataAccesslayer.xml" />

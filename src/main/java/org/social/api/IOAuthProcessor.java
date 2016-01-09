@@ -26,4 +26,11 @@ public interface IOAuthProcessor {
 	void process(final HttpServletRequest request, final HttpServletResponse response) throws Exception;
 	String getAccessToken();
 	SocialUser getSocialUserData() throws IOException;
+	/**
+	 * Zwraca typ obs³ugiwany przez processor.
+	 * 
+	 * @return typ obs³ugiwany przez processor
+	 * @throws Exception
+	 */
+	String getProcessorType();
 }

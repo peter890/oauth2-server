@@ -5,20 +5,24 @@ package org.application.jpa.dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.application.jpa.dao.api.IGenericDAO;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Generic Data Access Object
  *
  */
+@Transactional(value = TxType.REQUIRED)
 public abstract class GenericDAO<T> implements IGenericDAO<T> {
 	@PersistenceContext
 	protected EntityManager em;
@@ -100,5 +104,26 @@ public abstract class GenericDAO<T> implements IGenericDAO<T> {
 	@Transactional
 	public T merge(final T item) {
 		return em.merge(item);
+	}
+	
+	
+	protected List<T> runNamedQueryList(final String namedQuery, final Map<String, Object> params) {
+		TypedQuery<T> query = em.createNamedQuery(namedQuery, entityClass);
+		for (Entry<String, Object> parameter : params.entrySet()) {
+			query.setParameter(parameter.getKey(), parameter.getValue());
+		}
+		
+		return query.getResultList();
+		
+	}
+	
+	protected T runNamedQuery(final String namedQuery, final Map<String, Object> params) {
+		TypedQuery<T> query = em.createNamedQuery(namedQuery, entityClass);
+		for (Entry<String, Object> parameter : params.entrySet()) {
+			query.setParameter(parameter.getKey(), parameter.getValue());
+		}
+		
+		return query.getSingleResult();
+		
 	}
 }
