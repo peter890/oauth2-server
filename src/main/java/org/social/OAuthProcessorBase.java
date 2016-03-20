@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -33,12 +34,12 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	/**
 	 * Logger.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(OAuthProcessorBase.class);
+	protected static final Logger logger = LoggerFactory.getLogger(OAuthProcessorBase.class);
 	
 	/**
 	 * Zwrotny adres Url.
 	 */
-	private String returnRedirectUrl = "http://oauthgate.com:8080/server/oauth/login";
+	protected String returnRedirectUrl = "http://oauthgate.com:8080/server/oauth/login";
 
 	/**
 	 * AccessToken.
@@ -111,7 +112,9 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	private String getAccessToken(final String code) throws Exception {
 		logger.debug("getAccessToken|START");
 		URL accessTokenURL = new URL(prepareAccessTokenUrl(code));
-		URLConnection connection = accessTokenURL.openConnection();
+		HttpURLConnection connection = (HttpURLConnection) accessTokenURL.openConnection();
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String inputLine;
@@ -135,7 +138,7 @@ public abstract class OAuthProcessorBase implements IOAuthProcessor {
 	 * @return adres Url do pobrania accessTokenu
 	 * @throws UnsupportedEncodingException
 	 */
-	private String prepareAccessTokenUrl(final String code) throws UnsupportedEncodingException {
+	protected String prepareAccessTokenUrl(final String code) throws UnsupportedEncodingException {
 		logger.debug("prepareAccessTokenUrl|START");
 		StringBuilder accessTokenUrl = new StringBuilder();
 		accessTokenUrl.append(getBaseAccessTokenUrl()).append("?");

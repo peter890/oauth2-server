@@ -32,6 +32,9 @@ public class OAuthProcessorFactory implements IOAuthProcessorFactory {
 		if (GitHubOAuthProcessor.type.equals(name)) {
 			return new GitHubOAuthProcessor();
 		}
+		if (InstagramOAuthProcessor.type.equals(name)) {
+			return new InstagramOAuthProcessor();
+		}
 		logger.error("createProcessorByName| Can not create procesor by name: {} !", name);
 		return null;
 	}

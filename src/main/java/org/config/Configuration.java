@@ -30,7 +30,7 @@ public class Configuration {
 		}
 	}
 
-	public static Configuration getConfiguration() {
+	private static Configuration getConfiguration() {
 		if (instanse == null) {
 			try {
 				instanse = new Configuration();
@@ -41,7 +41,7 @@ public class Configuration {
 		return instanse;
 	}
 
-	public String getParameterValue(final Parameter parameter) {
+	public static String getParameterValue(final Parameter parameter) {
 		Configuration.getConfiguration();
 		return Configuration.appProperties.getProperty(parameter.value);
 	}
@@ -51,8 +51,11 @@ public class Configuration {
 		FacebookClientSecret("facebookClientSecret"),
 		GithubClientId("githubClientId"),
 		GithubClientSecret("githubClientSecret"),
+		InstagramClientId("instagramClientId"), 
+		InstagramClientSecret("instagramClientSecret"),
 		AccessTokenUrl("accessTokenUrl"),
-		SessionTimeout("sessionTimeout");
+		SessionTimeout("sessionTimeout"),
+		SSO_DURATION("ssoDuration");
 		
 		private String value;
 

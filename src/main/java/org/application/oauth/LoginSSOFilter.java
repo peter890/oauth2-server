@@ -116,7 +116,7 @@ public class LoginSSOFilter implements Filter {
 			return;
 		}
 		try {
-			sessionService = ctx.getBean("userSessionService", UserSessionService.class);//InitApp.getAppContext().getBean("userSessionService", UserSessionService.class);
+			sessionService = ctx.getBean("userSessionService", UserSessionService.class);
 			Cookie ssidCookie = CookieManager.getCookie(req, CookiesName.SSID);
 			Session session = sessionService.getSessionBySsnId(ssidCookie.getValue());
 			if (null == session || !session.isValid()) {
@@ -125,7 +125,7 @@ public class LoginSSOFilter implements Filter {
 			} else {
 				sessionService.updateSessionExpires(session);
 				Cookie cookie = CookieManager.getCookie(req, CookiesName.SSID);
-				cookie.setMaxAge(Integer.valueOf(Configuration.getConfiguration().getParameterValue(
+				cookie.setMaxAge(Integer.valueOf(Configuration.getParameterValue(
 						Parameter.SessionTimeout)));
 				CookieManager.setCookie((HttpServletResponse) response, cookie);
 			}

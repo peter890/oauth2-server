@@ -158,7 +158,7 @@ public class UserSessionService implements IUserSessionService {
 
 	private Date getExpiryDate() {
 		Calendar calendar = Calendar.getInstance();
-		int timeout = Integer.valueOf(Configuration.getConfiguration().getParameterValue(Parameter.SessionTimeout));
+		int timeout = Integer.valueOf(Configuration.getParameterValue(Parameter.SessionTimeout));
 		calendar.add(Calendar.SECOND, timeout);
 		return calendar.getTime();
 	}

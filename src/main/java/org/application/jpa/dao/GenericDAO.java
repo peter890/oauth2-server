@@ -68,7 +68,6 @@ public abstract class GenericDAO<T> implements IGenericDAO<T> {
 	 * 
 	 * @see org.application.jpa.dao.IBaseDAO#delete(java.lang.Object)
 	 */
-	@Transactional
 	public void delete(final T item) {
 		em.remove(item);
 	}
@@ -78,9 +77,9 @@ public abstract class GenericDAO<T> implements IGenericDAO<T> {
 	 * 
 	 * @see org.application.jpa.dao.IBaseDAO#save(java.lang.Object)
 	 */
-	@Transactional
 	public T save(final T item) {
-		em.persist(item);
+		//em.persist(item);
+		em.merge(item);
 		return item;
 	}
 
@@ -89,7 +88,6 @@ public abstract class GenericDAO<T> implements IGenericDAO<T> {
 	 * 
 	 * @see org.application.jpa.dao.api.IGenericDAO#persist(java.lang.Object)
 	 */
-	@Transactional
 	public T persist(final T item) {
 		em.persist(item);
 		em.flush();
@@ -101,7 +99,6 @@ public abstract class GenericDAO<T> implements IGenericDAO<T> {
 	 * 
 	 * @see org.application.jpa.dao.api.IGenericDAO#merge(java.lang.Object)
 	 */
-	@Transactional
 	public T merge(final T item) {
 		return em.merge(item);
 	}

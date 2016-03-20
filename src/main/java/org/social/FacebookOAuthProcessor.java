@@ -23,7 +23,7 @@ public class FacebookOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientId() {
-		return Configuration.getConfiguration().getParameterValue(Parameter.FacebookClientId);
+		return Configuration.getParameterValue(Parameter.FacebookClientId);
 	}
 
 	/* (non-Javadoc)
@@ -31,7 +31,7 @@ public class FacebookOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientSecretId() {
-		return Configuration.getConfiguration().getParameterValue(Parameter.FacebookClientSecret);
+		return Configuration.getParameterValue(Parameter.FacebookClientSecret);
 	}
 
 	/* (non-Javadoc)

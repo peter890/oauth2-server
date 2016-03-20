@@ -91,7 +91,7 @@ public class LoginBaseServlet extends AbstractServlet {
 
 				Cookie cookie = new Cookie(CookiesName.SSID.getValue(), session.getSsnId());
 				cookie.setHttpOnly(true);
-				cookie.setMaxAge(Integer.valueOf(Configuration.getConfiguration().getParameterValue(
+				cookie.setMaxAge(Integer.valueOf(Configuration.getParameterValue(
 						Parameter.SessionTimeout)));
 				CookieManager.setCookie(response, cookie);
 				response.sendRedirect("index.jsp");
@@ -125,7 +125,7 @@ public class LoginBaseServlet extends AbstractServlet {
 				isUserLoggedIn = true;
 				sessionService.updateSessionExpires(session);
 				Cookie cookie = CookieManager.getCookie(request, CookiesName.SSID);
-				cookie.setMaxAge(Integer.valueOf(Configuration.getConfiguration().getParameterValue(
+				cookie.setMaxAge(Integer.valueOf(Configuration.getParameterValue(
 						Parameter.SessionTimeout)));
 				CookieManager.setCookie(response, cookie);
 

@@ -1,4 +1,4 @@
-<%@page import="org.social.facebook.FacebookConnect" %>
+<%@page import="org.social.facebook.FacebookConnect"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
@@ -13,11 +13,15 @@
 <body style="text-align: center; margin: 0 auto;">
 	<div
 		style="margin: 0 auto; background-image: url(./img/fbloginbckgrnd.jpg); height: 360px; width: 610px;">
-		<a href="<%=fbConnection.getFBAuthUrl()%>"> <img
-			style="margin-top: 138px;" src="./img/facebookloginbutton.png" />
-		</a>
-		<br>
+		<a href="<%=fbConnection.getFBAuthUrl()%>"> 
+		<img style="margin-top: 138px;" src="./img/facebookloginbutton.png" />
+		</a> 
+		<br> 
 		<a href="<%=fbConnection.getGithubAuthUrl()%>"> GitHub</a>
+		<br>
+		<a href="<%=fbConnection.getInstagramAuthUrl()%>"> 
+			<img style="margin-top: 138px;" src="./img/instagram-login-button.png" />
+		</a>
 	</div>
 </body>
 </html>

@@ -6,6 +6,7 @@ package org.application.services.api;
 import java.util.Set;
 
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.application.jpa.model.AccessToken;
 import org.application.jpa.model.Customer;
 import org.application.jpa.model.User;
 
@@ -44,7 +45,8 @@ public interface ICustomerService {
 	 * @param clientSecret
 	 * @param authorizationCode
 	 * @return
+	 * @throws OAuthSystemException 
 	 */
-	String getAccessToken(final String clientId, final String clientSecret, final String authorizationCode);
+	AccessToken getAccessToken(final String clientId, final String clientSecret, final String authorizationCode) throws OAuthSystemException;
 
 }

@@ -20,11 +20,15 @@ import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
+import org.application.jpa.model.AccessToken;
 import org.application.jpa.model.Dictionary;
 import org.application.jpa.model.DictionaryItem;
 import org.application.jpa.model.DictionaryStructure;
 import org.application.jpa.model.DictionaryValue;
+import org.application.services.api.ICustomerService;
 import org.application.services.api.IDictionaryService;
+import org.config.Configuration;
+import org.config.Configuration.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +39,8 @@ public class OAuthTokenServlet extends AbstractServlet {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Inject
 	IDictionaryService dictionaryService;
+	@Inject
+	ICustomerService customerService;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -74,16 +80,19 @@ public class OAuthTokenServlet extends AbstractServlet {
 			// validateClient(oauthRequest);
 
 			String authzCode = oauthRequest.getCode();
+			AccessToken token = customerService.getAccessToken(clientId, clientSecret, authzCode);
 
 			// some code
-			String accessToken = oauthIssuerImpl.accessToken();
-			String refreshToken = oauthIssuerImpl.refreshToken();
+			//String accessToken = oauthIssuerImpl.accessToken();
+			//String refreshToken = oauthIssuerImpl.refreshToken();
 
-			// some code
+			int tokenLifeTime = Integer.parseInt(Configuration.getParameterValue(Parameter.SessionTimeout));
+			tokenLifeTime = tokenLifeTime / 2;
+			
 			OAuthResponse r = OAuthASResponse
 					.tokenResponse(HttpServletResponse.SC_OK)
-					.setAccessToken(accessToken).setExpiresIn("3600")
-					.setRefreshToken(refreshToken).buildJSONMessage();
+					.setAccessToken(token.getAccessToken()).setExpiresIn(String.valueOf(tokenLifeTime))
+					.setRefreshToken(token.getRefreshToken()).location(request.getParameter(OAuth.OAUTH_REDIRECT_URI)).buildJSONMessage();
 
 			response.setStatus(r.getResponseStatus());
 			PrintWriter pw = response.getWriter();

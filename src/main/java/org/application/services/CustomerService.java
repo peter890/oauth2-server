@@ -1,6 +1,8 @@
 package org.application.services;
 
+import java.util.Calendar;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -9,6 +11,7 @@ import org.apache.oltu.oauth2.as.issuer.ValueGenerator;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.application.jpa.dao.api.IAuthorizationDAO;
 import org.application.jpa.dao.api.ICustomerDAO;
+import org.application.jpa.model.AccessToken;
 import org.application.jpa.model.Authorization;
 import org.application.jpa.model.Customer;
 import org.application.jpa.model.User;
@@ -118,8 +121,21 @@ public class CustomerService implements ICustomerService {
 	/* (non-Javadoc)
 	 * @see org.application.services.api.ICustomerService#getAccessToken(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public String getAccessToken(final String clientId, final String clientSecret, final String authorizationCode) {
-		// TODO Auto-generated method stub
-		return null;
+	public AccessToken getAccessToken(final String clientId, final String clientSecret, final String authorizationCode)
+			throws OAuthSystemException {
+		AccessToken token = new AccessToken();
+		token.setAccessToken(UUID.randomUUID().toString());
+		token.setRefreshToken(UUID.randomUUID().toString());
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MINUTE, 2);
+		token.setExpireTime(calendar.getTime());
+
+		Authorization authorization = authorizationDao.findByClientSecret(clientId, clientSecret);
+		if (null == authorization) {
+			throw new OAuthSystemException("Nie odnaleziono Autoryzacji dla wskazanej part clientId/clientSecret");
+		}
+		authorization.setAccessToken(token);
+		authorizationDao.save(authorization);
+		return token;
 	}
 }

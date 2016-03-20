@@ -14,7 +14,9 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Authorization.findByClientAndUser", query = "SELECT a FROM Authorization a WHERE a.user.userId = :userId AND a.customer.customerId = :customerId")
+@NamedQuery(name = "Authorization.findByClientAndUser", query = "SELECT a FROM Authorization a WHERE a.user.userId = :userId AND a.customer.customerId = :customerId"),
+@NamedQuery(name = "Authorization.findByClientSecret", query = "SELECT a FROM Authorization a WHERE a.customer.clientId = :clientId AND a.customer.clientSecret = :clientSecret"),
+@NamedQuery(name = "Authorization.findByAccessToken", query = "SELECT a FROM Authorization a WHERE a.accessToken.accessToken = :accessToken")
 })
 public class Authorization implements Serializable {
 	/**

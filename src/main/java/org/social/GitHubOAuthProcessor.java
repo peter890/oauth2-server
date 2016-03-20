@@ -22,7 +22,7 @@ public class GitHubOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientId() {
-		return Configuration.getConfiguration().getParameterValue(Parameter.GithubClientId);
+		return Configuration.getParameterValue(Parameter.GithubClientId);
 	}
 
 	/* (non-Javadoc)
@@ -30,7 +30,7 @@ public class GitHubOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientSecretId() {
-		return Configuration.getConfiguration().getParameterValue(Parameter.GithubClientSecret);
+		return Configuration.getParameterValue(Parameter.GithubClientSecret);
 	}
 
 	/* (non-Javadoc)

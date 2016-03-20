@@ -31,11 +31,38 @@ public class AuthorizationDAO extends GenericDAO<Authorization> implements
 		params.put("userId", user.getUserId());
 		try {
 			return runNamedQuery("Authorization.findByClientAndUser", params);
-		} catch (NoResultException e) {
+		} catch (final NoResultException e) {
 			Authorization authorization = new Authorization();
 			authorization.setCustomer(customer);
 			authorization.setUser(user);
 			return authorization;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.application.jpa.dao.api.IAuthorizationDAO#findByClientSecret(java.lang.String, java.lang.String)
+	 */
+	public Authorization findByClientSecret(final String clientId, final String clientSecret) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("clientId", clientId);
+		params.put("clientSecret", clientSecret);
+		try {
+			return runNamedQuery("Authorization.findByClientSecret", params);
+		} catch (final NoResultException e) {
+			return null;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.application.jpa.dao.api.IAuthorizationDAO#findByAccessToken(java.lang.String)
+	 */
+	public Authorization findByAccessToken(String accessToken) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("accessToken", accessToken);
+		try {
+			return runNamedQuery("Authorization.findByAccessToken", params);
+		} catch (final NoResultException e) {
+			return null;
 		}
 	}
 }
