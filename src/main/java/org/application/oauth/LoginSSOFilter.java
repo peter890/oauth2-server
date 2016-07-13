@@ -33,8 +33,7 @@ import org.application.services.CustomerService;
 import org.application.services.UserSessionService;
 import org.application.services.api.ICustomerService;
 import org.application.services.api.IUserSessionService;
-import org.config.Configuration;
-import org.config.Configuration.Parameter;
+import org.config.ConfigProperties;
 import org.core.common.enums.CookiesName;
 import org.core.common.exceptions.CookieNotFoundException;
 import org.core.common.utils.CookieManager;
@@ -91,27 +90,7 @@ public class LoginSSOFilter implements Filter {
 		
 		verifyOAuthAuthzRequest(req);
 
-		String path = req.getRequestURI();
-//		if (!path.startsWith("/server")) {
-//			chain.doFilter(request, response);
-//			return;
-//		}
-		path = path.replaceFirst(req.getContextPath(), "");
-		boolean excluded = false;
-		if (excludedUrls.contains(path)) {
-			excluded = true;
-		} else {
-			for (String url : excludedUrls) {
-				if (url.endsWith("*") && path.startsWith(url.replace("*", ""))) {
-					if ((excluded = path.startsWith(url.replace("*", ""))) == true) {
-						break;
-					}
-
-				}
-			}
-		}
-
-		if (excluded) {
+		if (isUrlExcluded(req)) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -125,8 +104,7 @@ public class LoginSSOFilter implements Filter {
 			} else {
 				sessionService.updateSessionExpires(session);
 				Cookie cookie = CookieManager.getCookie(req, CookiesName.SSID);
-				cookie.setMaxAge(Integer.valueOf(Configuration.getParameterValue(
-						Parameter.SessionTimeout)));
+				cookie.setMaxAge(Integer.valueOf(ConfigProperties.SessionTimeout.getValue()));
 				CookieManager.setCookie((HttpServletResponse) response, cookie);
 			}
 			if(processOAuthRequestIfExist(req, res, session)) {
@@ -138,6 +116,30 @@ public class LoginSSOFilter implements Filter {
 			return;
 		}
 		chain.doFilter(request, response);
+	}
+	/**
+	 * Sprawdza czy podany url jest wykluczony z filtrowania
+	 * @param HttpServletRequest do sprawdzenia.
+	 * @return <true> jeœli URL jest wy³¹czony z filtrowania, w przeciwnym razie <false>
+	 */
+	private boolean isUrlExcluded(final HttpServletRequest httpRequest) {
+		String path = httpRequest.getRequestURI();
+		path = path.replaceFirst(httpRequest.getContextPath(), "");
+		boolean excluded = false;
+		
+		if (excludedUrls.contains(path)) {
+			excluded = true;
+		} else {
+			for (String url : excludedUrls) {
+				if (url.endsWith("*") && path.startsWith(url.replace("*", ""))) {
+					if ((excluded = path.startsWith(url.replace("*", ""))) == true) {
+						break;
+					}
+
+				}
+			}
+		}
+		return excluded;
 	}
 	
 	/**

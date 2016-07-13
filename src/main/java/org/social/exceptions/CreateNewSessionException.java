@@ -9,4 +9,9 @@ package org.social.exceptions;
  */
 public class CreateNewSessionException extends Exception {
 
+	/**
+	 * UID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 }

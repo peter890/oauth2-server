@@ -1,6 +1,7 @@
 package org.application.services;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -137,5 +138,12 @@ public class CustomerService implements ICustomerService {
 		authorization.setAccessToken(token);
 		authorizationDao.save(authorization);
 		return token;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.application.services.api.ICustomerService#getAllCustomers()
+	 */
+	public List<Customer> getAllCustomers() {
+		return customerDao.getAll();
 	}
 }

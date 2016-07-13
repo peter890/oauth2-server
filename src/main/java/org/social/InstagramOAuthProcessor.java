@@ -9,8 +9,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.OAuthProviderType;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
-import org.config.Configuration;
-import org.config.Configuration.Parameter;
+import org.config.ConfigProperties;
 
 /**
  * @author piotrek
@@ -23,7 +22,7 @@ public class InstagramOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientId() {
-		return Configuration.getParameterValue(Parameter.InstagramClientId);
+		return ConfigProperties.InstagramClientId.getValue();
 	}
 
 	/* (non-Javadoc)
@@ -31,7 +30,7 @@ public class InstagramOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientSecretId() {
-		return Configuration.getParameterValue(Parameter.InstagramClientSecret);
+		return ConfigProperties.InstagramClientSecret.getValue();
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +60,7 @@ public class InstagramOAuthProcessor extends OAuthProcessorBase {
 	 * @see org.social.OAuthProcessorBase#prepareAccessTokenUrl(java.lang.String)
 	 */
 	@Override
-	protected String prepareAccessTokenUrl(String code) throws UnsupportedEncodingException {
+	protected String prepareAccessTokenUrl(final String code) throws UnsupportedEncodingException {
 		logger.debug("prepareAccessTokenUrl|START");
 		
 		try {

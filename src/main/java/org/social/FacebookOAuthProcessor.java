@@ -1,8 +1,7 @@
 package org.social;
 
 import org.apache.oltu.oauth2.common.OAuthProviderType;
-import org.config.Configuration;
-import org.config.Configuration.Parameter;
+import org.config.ConfigProperties;
 
 /**
  * @author piotrek
@@ -23,7 +22,7 @@ public class FacebookOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientId() {
-		return Configuration.getParameterValue(Parameter.FacebookClientId);
+		return ConfigProperties.FacebookClientId.getValue();
 	}
 
 	/* (non-Javadoc)
@@ -31,7 +30,7 @@ public class FacebookOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientSecretId() {
-		return Configuration.getParameterValue(Parameter.FacebookClientSecret);
+		return ConfigProperties.FacebookClientSecret.getValue();
 	}
 
 	/* (non-Javadoc)

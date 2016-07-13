@@ -3,6 +3,7 @@
  */
 package org.application.services.api;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -48,5 +49,10 @@ public interface ICustomerService {
 	 * @throws OAuthSystemException 
 	 */
 	AccessToken getAccessToken(final String clientId, final String clientSecret, final String authorizationCode) throws OAuthSystemException;
-
+	
+	/**
+	 * Pobiera wszystkich customerów
+	 * @return Lista obiektów <code>Customer</code>
+	 */
+	List<Customer> getAllCustomers();
 }

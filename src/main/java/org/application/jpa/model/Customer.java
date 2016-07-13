@@ -55,6 +55,10 @@ public class Customer implements Serializable {
 	 * Czy klient aktywny
 	 */
 	private Boolean active;
+	/**
+	 * Url na który nale¿y przekierowaæ w celu wylogowania u¿ytkownika z wewnêtrzengo systemu uwierzytelniania.
+	 */
+	private String logoutUrl;
 
 	/**
 	 * @return Zwraca customerId
@@ -113,7 +117,7 @@ public class Customer implements Serializable {
 	}
 
 	/**
-	 * @return Zwraca active
+	 * @return Zwraca: active
 	 */
 	public Boolean getActive() {
 		return active;
@@ -125,5 +129,20 @@ public class Customer implements Serializable {
 	public void setActive(final Boolean active) {
 		this.active = active;
 	}
-
+	
+	/**
+	 * Zwraca  Url na który nale¿y przekierowaæ w celu wylogowania u¿ytkownika z wewnêtrzengo systemu uwierzytelniania.
+	 * @return logoutUrl.
+	 */
+	public String getLogoutUrl() {
+		return logoutUrl;
+	}
+	
+	/**
+	 * Ustawia: Url na który nale¿y przekierowaæ w celu wylogowania u¿ytkownika z wewnêtrzengo systemu uwierzytelniania.
+	 * @param logoutUrl.
+	 */
+	public void setLogoutUrl(final String logoutUrl) {
+		this.logoutUrl = logoutUrl;
+	}
 }
