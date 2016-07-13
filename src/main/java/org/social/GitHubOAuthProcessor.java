@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.oltu.oauth2.common.OAuthProviderType;
-import org.config.Configuration;
-import org.config.Configuration.Parameter;
+import org.config.ConfigProperties;
 
 /**
  * @author piotrek
@@ -22,7 +21,7 @@ public class GitHubOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientId() {
-		return Configuration.getParameterValue(Parameter.GithubClientId);
+		return ConfigProperties.GithubClientId.getValue();
 	}
 
 	/* (non-Javadoc)
@@ -30,7 +29,7 @@ public class GitHubOAuthProcessor extends OAuthProcessorBase {
 	 */
 	@Override
 	protected String getClientSecretId() {
-		return Configuration.getParameterValue(Parameter.GithubClientSecret);
+		return ConfigProperties.GithubClientSecret.getValue();
 	}
 
 	/* (non-Javadoc)

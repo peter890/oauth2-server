@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.application.jpa.model.Session;
 import org.application.jpa.model.SocialUser;
 import org.application.services.api.IUserSessionService;
-import org.config.Configuration;
-import org.config.Configuration.Parameter;
+import org.config.ConfigProperties;
 import org.core.common.enums.CookiesName;
 import org.core.common.exceptions.CookieNotFoundException;
 import org.core.common.utils.CookieManager;
@@ -91,8 +90,7 @@ public class LoginBaseServlet extends AbstractServlet {
 
 				Cookie cookie = new Cookie(CookiesName.SSID.getValue(), session.getSsnId());
 				cookie.setHttpOnly(true);
-				cookie.setMaxAge(Integer.valueOf(Configuration.getParameterValue(
-						Parameter.SessionTimeout)));
+				cookie.setMaxAge(Integer.valueOf(ConfigProperties.SessionTimeout.getValue()));
 				CookieManager.setCookie(response, cookie);
 				response.sendRedirect("index.jsp");
 			} catch (Exception e) {
@@ -125,8 +123,7 @@ public class LoginBaseServlet extends AbstractServlet {
 				isUserLoggedIn = true;
 				sessionService.updateSessionExpires(session);
 				Cookie cookie = CookieManager.getCookie(request, CookiesName.SSID);
-				cookie.setMaxAge(Integer.valueOf(Configuration.getParameterValue(
-						Parameter.SessionTimeout)));
+				cookie.setMaxAge(Integer.valueOf(ConfigProperties.SessionTimeout.getValue()));
 				CookieManager.setCookie(response, cookie);
 
 				try {

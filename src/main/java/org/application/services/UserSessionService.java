@@ -17,8 +17,7 @@ import org.application.jpa.model.SocialUser;
 import org.application.jpa.model.User;
 import org.application.services.api.ICustomerService;
 import org.application.services.api.IUserSessionService;
-import org.config.Configuration;
-import org.config.Configuration.Parameter;
+import org.config.ConfigProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.social.exceptions.CreateNewSessionException;
@@ -158,7 +157,7 @@ public class UserSessionService implements IUserSessionService {
 
 	private Date getExpiryDate() {
 		Calendar calendar = Calendar.getInstance();
-		int timeout = Integer.valueOf(Configuration.getParameterValue(Parameter.SessionTimeout));
+		int timeout = Integer.valueOf(ConfigProperties.SessionTimeout.getValue());
 		calendar.add(Calendar.SECOND, timeout);
 		return calendar.getTime();
 	}

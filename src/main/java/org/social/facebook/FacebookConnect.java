@@ -13,8 +13,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.OAuthProviderType;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
-import org.config.Configuration;
-import org.config.Configuration.Parameter;
+import org.config.ConfigProperties;
 
 /**
  * @author piotrek
@@ -23,7 +22,7 @@ import org.config.Configuration.Parameter;
 public class FacebookConnect {
 	static String accessToken = "";
 	public String getFBAuthUrl() {
-		String clientId = Configuration.getParameterValue(Parameter.FacebookClientId);
+		String clientId = ConfigProperties.FacebookClientId.getValue();
 		try {
 			OAuthClientRequest request = OAuthClientRequest.authorizationProvider(OAuthProviderType.FACEBOOK)
 					.setClientId(clientId).setRedirectURI("http://oauthgate.com:8080/server/oauth/login?sysname=facebook")
@@ -36,7 +35,7 @@ public class FacebookConnect {
 	}
 	
 	public String getGithubAuthUrl() {
-		String clientId = Configuration.getParameterValue(Parameter.GithubClientId);
+		String clientId = ConfigProperties.GithubClientId.getValue();
 		try {
 			OAuthClientRequest request = OAuthClientRequest.authorizationProvider(OAuthProviderType.GITHUB)
 					.setClientId(clientId).setRedirectURI("http://oauthgate.com:8080/server/oauth/login?sysname=GitHub")
@@ -49,7 +48,7 @@ public class FacebookConnect {
 	}
 	
 	public String getInstagramAuthUrl() {
-		String clientId = Configuration.getParameterValue(Parameter.InstagramClientId);
+		String clientId = ConfigProperties.InstagramClientId.getValue();
 		try {
 			OAuthClientRequest request = OAuthClientRequest.authorizationProvider(OAuthProviderType.INSTAGRAM)
 					.setClientId(clientId).setRedirectURI("http://oauthgate.com:8080/server/oauth/login?sysname=Instagram")
@@ -122,8 +121,8 @@ public class FacebookConnect {
 	}
 	
 	public String getFBGraphUrl(final String code) {
-		String clientId = Configuration.getParameterValue(Parameter.FacebookClientId);
-		String clientSecretId = Configuration.getParameterValue(Parameter.FacebookClientSecret);
+		String clientId = ConfigProperties.FacebookClientId.getValue();
+		String clientSecretId = ConfigProperties.FacebookClientSecret.getValue();
 		String fbGraphUrl = "";
 		try {
 			fbGraphUrl = "https://graph.facebook.com/oauth/access_token?"

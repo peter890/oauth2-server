@@ -57,10 +57,11 @@ public abstract class GenericDAO<T> implements IGenericDAO<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<T> getAll() {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<T> query = builder.createQuery(entityClass);
-		TypedQuery<T> allQuery = em.createQuery(query);
-		return allQuery.getResultList();
+//		CriteriaBuilder builder = em.getCriteriaBuilder();
+//		CriteriaQuery<T> query = builder.createQuery(entityClass);
+//		TypedQuery<T> allQuery = em.createQuery(query);
+//		return allQuery.getResultList();
+		return em.createQuery("Select t from " + entityClass.getSimpleName() + " t").getResultList();
 	}
 
 	/*
