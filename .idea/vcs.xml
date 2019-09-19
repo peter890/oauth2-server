@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../client-app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../oauth2-client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../oauth2-common" vcs="Git" />
+  </component>
+</project>

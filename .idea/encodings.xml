@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/../client-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../client-app/sso/src/main/java/org/core/client/authorization/FailureAuthorizerControllerClassCreateInstance.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../oauth2-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../oauth2-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/jpa/dao/api/IGenericDAO.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/jpa/model/AccessToken.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/jpa/model/Authorization.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/jpa/model/Customer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/jpa/model/Session.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/jpa/model/SocialUser.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/oauth/LoginSSOFilter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/oauth/servlet/AbstractServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/oauth/servlet/LoginBaseServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/oauth/servlet/OAuthTokenServlet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/rest/RESTAuthenticateFilter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/services/UserSessionService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/application/services/api/IDictionaryService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/social/api/IOAuthProcessor.java" charset="UTF-8" />
+  </component>
+</project>
