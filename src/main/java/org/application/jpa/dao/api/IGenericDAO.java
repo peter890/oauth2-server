@@ -1,41 +1,45 @@
 /**
- * 
+ *
  */
 package org.application.jpa.dao.api;
 
 import java.util.List;
 
 /**
- * @author piotrek
  * @param <T>
+ * @author piotrek
  */
 public interface IGenericDAO<T> {
-	/**
-	 * Wyszukuje encjê po identyfikatorze.
-	 * @param id identyfikator obietu
-	 * @return wyszukany obiekt albo null
-	 */
-	public T find(final Integer id);
-	
-	/**
-	 * Pobiera listê obiektów
-	 * @return
-	 */
-	public List<T> getAll();
-	
-	/**
-	 * Utrwala encjê w bazie.
-	 * @param item
-	 */
-	public T save(T item);
-	
-	/**
-	 * Usuwa encjê z bazy.
-	 * @param item
-	 */
-	public void delete(T item);
-	
-	public T persist(T item);
-	
-	public T merge(T item);
+    /**
+     * Wyszukuje encjÄ™ po identyfikatorze.
+     *
+     * @param id identyfikator obietu
+     * @return wyszukany obiekt albo null
+     */
+    T find(final Integer id);
+
+    /**
+     * Pobiera listÄ™ obiektÃ³w
+     *
+     * @return
+     */
+    List<T> getAll();
+
+    /**
+     * Utrwala encjÄ™ w bazie.
+     *
+     * @param item
+     */
+    T save(T item);
+
+    /**
+     * Usuwa encjÄ™ z bazy.
+     *
+     * @param item
+     */
+    void delete(T item);
+
+    T persist(T item);
+
+    T merge(T item);
 }

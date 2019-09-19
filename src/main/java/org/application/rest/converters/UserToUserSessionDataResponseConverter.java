@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.application.rest.converters;
 
@@ -11,21 +11,21 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author piotrek
- *
  */
 @Service
-public class UserToUserSessionDataResponseConverter implements IConverter<User, UserSessionDataResponse>{
+public class UserToUserSessionDataResponseConverter implements IConverter<User, UserSessionDataResponse> {
 
-	/* (non-Javadoc)
-	 * @see org.core.common.api.IConverter#convert(java.lang.Object)
-	 */
-	public UserSessionDataResponse convert(final User source) {
-		UserSessionDataResponse response = new UserSessionDataResponse();
-		response.userId = String.valueOf(source.getUserId());
-		int tokenLifeTime = Integer.parseInt(ConfigProperties.SessionTimeout.getValue());
-		tokenLifeTime = tokenLifeTime / 2;
-		response.tokenLifeTime = tokenLifeTime;
-		return response;
-	}
+    /* (non-Javadoc)
+     * @see org.core.common.api.IConverter#convert(java.lang.Object)
+     */
+    public UserSessionDataResponse convert(final User source) {
+        int tokenLifeTime = Integer.parseInt(ConfigProperties.SESSION_TIMEOUT.getValue());
+        tokenLifeTime = tokenLifeTime / 2;
+
+        return UserSessionDataResponse.builder()
+                .userId(String.valueOf(source.getUserId()))
+                .tokenLifeTime(tokenLifeTime)
+                .build();
+    }
 
 }

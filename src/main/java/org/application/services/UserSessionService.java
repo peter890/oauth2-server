@@ -1,13 +1,7 @@
 /**
- * 
+ *
  */
 package org.application.services;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
-
-import javax.inject.Inject;
 
 import org.application.jpa.dao.api.ISessionDAO;
 import org.application.jpa.dao.api.ISocialUserDAO;
@@ -25,141 +19,142 @@ import org.social.exceptions.SocialUserNotExistException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
+
 /**
  * @author piotrek
- *
  */
 public class UserSessionService implements IUserSessionService {
+    private final Logger logger = LoggerFactory.getLogger(UserSessionService.class);
 
-	Logger logger = LoggerFactory.getLogger(UserSessionService.class);
+    @Inject
+    private ISessionDAO sessionDao;
 
-	@Inject
-	private ISessionDAO sessionDao;
+    @Inject
+    private IUserDAO userDao;
 
-	@Inject
-	private IUserDAO userDao;
+    @Inject
+    private ISocialUserDAO socialUserDao;
 
-	@Inject
-	private ISocialUserDAO socialUserDao;
-	@Inject
-	private ICustomerService customerService;
+    @Inject
+    private ICustomerService customerService;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see2
-	 * org.application.services.api.IUserSessionService#createNewSocialUserSession
-	 * (java.lang.String)
-	 */
-	public Session createNewSocialUserSession(final Session session) throws SocialUserNotExistException {
-		//customerService.createNewCustomer("Client1");
-		//String input = socialUserId.toString();// + (new Date()).getTime();
-		UUID sessionIdGenerator = UUID.randomUUID();
-		// TODO: dopisac weryfikacjÍ unikalnoúci wygenerowanego sessionId.
-	
-		//SocialUser socialUser = socialUserDao.findBySocialId(session.getSocialUser().getSocialUserId());
+    /*
+     * (non-Javadoc)
+     *
+     * @see2
+     * org.application.services.api.IUserSessionService#createNewSocialUserSession
+     * (java.lang.String)
+     */
+    public Session createNewSocialUserSession(final Session session) throws SocialUserNotExistException {
+        //customerService.createNewCustomer("Client1");
+        //String input = socialUserId.toString();// + (new Date()).getTime();
+        final UUID sessionIdGenerator = UUID.randomUUID();
+        // TODO: dopisac weryfikacjƒô unikalno≈õci wygenerowanego sessionId.
 
-		Calendar calendar = Calendar.getInstance();
-		session.setCreationDate(calendar.getTime());
-		session.setExpiredDate(getExpiryDate());
-		session.setSsnId(sessionIdGenerator.toString());
+        //SocialUser socialUser = socialUserDao.findBySocialId(session.getSocialUser().getSocialUserId());
 
-		return sessionDao.merge(session);
-	}
+        final Calendar calendar = Calendar.getInstance();
+        session.setCreationDate(calendar.getTime());
+        session.setExpiredDate(getExpiryDate());
+        session.setSsnId(sessionIdGenerator.toString());
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.application.services.api.IUserSessionService#getSessionBySsnId(java
-	 * .lang.String)
-	 */
-	public Session getSessionBySsnId(final String ssnId) {
-		return sessionDao.findBySsnId(ssnId);
-	}
+        return this.sessionDao.merge(session);
+    }
 
-	/**
-	 * @return Zwraca sessionDao
-	 */
-	public ISessionDAO getSessionDao() {
-		return sessionDao;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.application.services.api.IUserSessionService#getSessionBySsnId(java
+     * .lang.String)
+     */
+    public Session getSessionBySsnId(final String ssnId) {
+        return this.sessionDao.findBySsnId(ssnId);
+    }
 
-	/**
-	 * @param sessionDao
-	 *            the sessionDao to set
-	 */
-	public void setSessionDao(final ISessionDAO sessionDao) {
-		this.sessionDao = sessionDao;
-	}
+    /**
+     * @return Zwraca sessionDao
+     */
+    public ISessionDAO getSessionDao() {
+        return this.sessionDao;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.application.services.api.IUserSessionService#createSessionWithNewUser
-	 * (org.application.jpa.model.Session)
-	 */
-	@SuppressWarnings("finally")
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Session createSessionWithNewUser(final Session session) throws CreateNewSessionException {
-		String methodName = "createSessionWithNewUser";
-		logger.debug(methodName, "START {0}", new Object[] { session });
-		// sprawdzamy czy otrzymalismy dane uzytkownika.
-		// Imie, nazwisko, email.
-		if (null == session.getSocialUser().getUser()) {
-			logger.debug(methodName, "Brak danych uøytkownika!");
-			throw new CreateNewSessionException();
-		}
-		// w session powinniúmy otrzymaÊ socialId uzytownika ktÛre pochodzi od
-		// identityProvidera.
-		// sprawdzamy czy takie socialId jest juø zarejestrowane w bazie.
-		// pÛki co zak≥adamy, øe socialId jest unikalne nawet w przypadki wielu
-		// IP
-		try {
-			// jeúli socialUser istnieje, to tworzymy dla niego sesje.
-			SocialUser socialUser = socialUserDao.findBySocialId(session.getSocialUser().getSocialId());
-			session.setSocialUser(socialUser);
-			//session.setUser(socialUser.getUser());
+    /**
+     * @param sessionDao the sessionDao to set
+     */
+    public void setSessionDao(final ISessionDAO sessionDao) {
+        this.sessionDao = sessionDao;
+    }
 
-		} catch (SocialUserNotExistException e) {
-			// jeúli socialUser nie istnieje, to:
-			SocialUser socialUser = session.getSocialUser();
-			socialUser.setCreationDate(new Date());
-			// sprawdzmy po email, czy istnieje taki uzytkownik.
-			User user = userDao.findByEmail(session.getSocialUser().getUser().getEmail());
-			if (null != user) {
-				socialUser.setUser(user);
-				socialUser = socialUserDao.save(socialUser);
-			}
-			else {
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.application.services.api.IUserSessionService#createSessionWithNewUser
+     * (org.application.jpa.model.Session)
+     */
+    @SuppressWarnings("finally")
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Session createSessionWithNewUser(final Session session) throws CreateNewSessionException {
+        final String methodName = "createSessionWithNewUser";
+        this.logger.debug(methodName, "START {0}", new Object[]{session});
+        // sprawdzamy czy otrzymalismy dane uzytkownika.
+        // Imie, nazwisko, email.
+        if (null == session.getSocialUser().getUser()) {
+            this.logger.debug(methodName, "Brak danych u≈ºytkownika!");
+            throw new CreateNewSessionException();
+        }
+        // w session powinni≈õmy otrzymaƒá socialId uzytownika kt√≥re pochodzi od
+        // identityProvidera.
+        // sprawdzamy czy takie socialId jest ju≈º zarejestrowane w bazie.
+        // p√≥ki co zak≈Çadamy, ≈ºe socialId jest unikalne nawet w przypadki wielu
+        // IP
+        try {
+            // je≈õli socialUser istnieje, to tworzymy dla niego sesje.
+            final SocialUser socialUser = this.socialUserDao.findBySocialId(session.getSocialUser().getSocialId());
+            session.setSocialUser(socialUser);
+            //session.setUser(socialUser.getUser());
 
-			}
+        } catch (final SocialUserNotExistException e) {
+            // je≈õli socialUser nie istnieje, to:
+            SocialUser socialUser = session.getSocialUser();
+            socialUser.setCreationDate(new Date());
+            // sprawdzmy po email, czy istnieje taki uzytkownik.
+            final User user = this.userDao.findByEmail(session.getSocialUser().getUser().getEmail());
+            if (null != user) {
+                socialUser.setUser(user);
+                socialUser = this.socialUserDao.save(socialUser);
+            }
 
-			//session.setUser(user);
-			session.setSocialUser(socialUser);
-		} finally {
-			try {
-				return createNewSocialUserSession(session);
-			} catch (SocialUserNotExistException e) {
-				throw new CreateNewSessionException();
-			}
-		}
+            //session.setUser(user);
+            session.setSocialUser(socialUser);
+        } finally {
+            try {
+                return createNewSocialUserSession(session);
+            } catch (final SocialUserNotExistException e) {
+                throw new CreateNewSessionException();
+            }
+        }
 
-	}
-	/* (non-Javadoc)
-	 * @see org.application.services.api.IUserSessionService#sessionExpirationUpdate(org.application.jpa.model.Session)
-	 */
-	public void updateSessionExpires(final Session session) {
-		session.setExpiredDate(getExpiryDate());
-		sessionDao.merge(session);
-	}
+    }
 
-	private Date getExpiryDate() {
-		Calendar calendar = Calendar.getInstance();
-		int timeout = Integer.valueOf(ConfigProperties.SessionTimeout.getValue());
-		calendar.add(Calendar.SECOND, timeout);
-		return calendar.getTime();
-	}
+    /* (non-Javadoc)
+     * @see org.application.services.api.IUserSessionService#sessionExpirationUpdate(org.application.jpa.model.Session)
+     */
+    public void updateSessionExpires(final Session session) {
+        session.setExpiredDate(getExpiryDate());
+        this.sessionDao.merge(session);
+    }
+
+    private Date getExpiryDate() {
+        final Calendar calendar = Calendar.getInstance();
+        final int timeout = Integer.valueOf(ConfigProperties.SESSION_TIMEOUT.getValue());
+        calendar.add(Calendar.SECOND, timeout);
+        return calendar.getTime();
+    }
 
 }

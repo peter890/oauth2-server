@@ -14,25 +14,25 @@ import org.application.jpa.model.DictionaryValue;
  */
 public interface IDictionaryService {
 	/**
-	 * Zwraca listê itemów s³ownika
+	 * Zwraca listÄ™ itemÃ³w sÅ‚ownika
 	 * 
 	 * @param dictionaryName
-	 *            Nazwa s³ownika
-	 * @return Lista itemów s³ownika. Item, to Map<K,V>, gdzie K = nazwa
-	 *         atrybutu itemu w s³owniku, a V = wartoœæ tego atrybutu
+	 *            Nazwa sÅ‚ownika
+	 * @return Lista itemÃ³w sÅ‚ownika. Item, to Map<K,V>, gdzie K = nazwa
+	 *         atrybutu itemu w sÅ‚owniku, a V = wartoÅ›Ä‡ tego atrybutu
 	 */
 	List<Map<String, String>> getDictionaryByName(String dictionaryName);
 
 	/**
-	 * Zwraca item s³ownika w postaci mapy atrybutów
+	 * Zwraca item sÅ‚ownika w postaci mapy atrybutÃ³w
 	 * 
 	 * @param dictionaryName
-	 *            Nazwa s³ownika
+	 *            Nazwa sÅ‚ownika
 	 * @param attributeName
 	 *            Nazwa attrybutu
 	 * @param attributeValue
-	 *            Wartoœæ attrybutu
-	 * @return Item s³ownika, reprezentowany przez mapê attrybutów tego itemu.
+	 *            WartoÅ›Ä‡ attrybutu
+	 * @return Item sÅ‚ownika, reprezentowany przez mapÄ™ attrybutÃ³w tego itemu.
 	 */
 	Map<String, String> getDictionaryItemByAttributeValue(String dictionaryName, String attributeName,
 			String attributeValue);

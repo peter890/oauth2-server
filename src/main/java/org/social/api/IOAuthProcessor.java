@@ -13,7 +13,7 @@ import org.application.jpa.model.SocialUser;
  */
 public interface IOAuthProcessor {
 	/**
-	 * Generuje URL z pomocπ ktÛrego uzyskamy AuthorizationCode.
+	 * Generuje URL z pomocƒÖ kt√≥rego uzyskamy AuthorizationCode.
 	 * @return URL do pobrania AuthorizationCode
 	 */
 	//String getAuthorizationUrl();
@@ -27,9 +27,9 @@ public interface IOAuthProcessor {
 	String getAccessToken();
 	SocialUser getSocialUserData() throws IOException;
 	/**
-	 * Zwraca typ obs≥ugiwany przez processor.
+	 * Zwraca typ obs≈Çugiwany przez processor.
 	 * 
-	 * @return typ obs≥ugiwany przez processor
+	 * @return typ obs≈Çugiwany przez processor
 	 * @throws Exception
 	 */
 	String getProcessorType();

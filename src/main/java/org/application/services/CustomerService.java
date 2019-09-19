@@ -1,12 +1,5 @@
 package org.application.services;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.inject.Inject;
-
 import org.apache.oltu.oauth2.as.issuer.UUIDValueGenerator;
 import org.apache.oltu.oauth2.as.issuer.ValueGenerator;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -22,41 +15,42 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 /**
  * @author piotrek
- *
  */
 @Repository
 public class CustomerService implements ICustomerService {
-	
-	/**
-	 * Logger.
-	 */
-	private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
-	@Inject
-	private ICustomerDAO customerDao;
-	
-	@Inject
-	private IAuthorizationDAO authorizationDao;
-	
-	@Inject
-	private IAccessTokenService accessTokenService;
-	
-	private ValueGenerator valueGenerator = new UUIDValueGenerator();
+    /**
+     * Logger.
+     */
+    private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
+    @Inject
+    private ICustomerDAO customerDao;
+
+    @Inject
+    private IAuthorizationDAO authorizationDao;
+
+    @Inject
+    private IAccessTokenService accessTokenService;
+
+    private ValueGenerator valueGenerator = new UUIDValueGenerator();
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.application.services.api.ICustomerService#createNewCustomer(java.
-	 * lang.String)
+     *{@inheritDoc}
 	 */
-	
-	public Customer createNewCustomer(final String name) {
-		logger.debug("createNewCustomer| customerName: {}", name);
-		Customer customer = new Customer();
-		try {
+
+    public Customer createNewCustomer(final String name) {
+        logger.debug("createNewCustomer| customerName: {}", name);
+        final Customer customer = new Customer();
+        try {
 //			MessageDigest md = MessageDigest.getInstance("SHA-256");
 //			String clientId = UUID.randomUUID().toString();
 //			md.update(clientId.getBytes());
@@ -68,20 +62,20 @@ public class CustomerService implements ICustomerService {
 //			byteData = md.digest();
 //			clientSecret = convertByteToHex(byteData);
 
-			customer.setActive(Boolean.TRUE);
-			//customer.setClientId(clientId);
-			customer.setClientId(valueGenerator.generateValue());
-			customer.setClientSecret(valueGenerator.generateValue(customer.getClientId()));
-			customer.setName(name);
+            customer.setActive(Boolean.TRUE);
+            //customer.setClientId(clientId);
+            customer.setClientId(this.valueGenerator.generateValue());
+            customer.setClientSecret(this.valueGenerator.generateValue(customer.getClientId()));
+            customer.setName(name);
 
 //		} catch (NoSuchAlgorithmException e) {
 //			logger.error("createNewCustomer", e);
-		} catch (OAuthSystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return customerDao.save(customer);
-	}
+        } catch (final OAuthSystemException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return this.customerDao.save(customer);
+    }
 
 //	private String convertByteToHex(final byte[] byteData) {
 //		// convert the byte to hex format method 2
@@ -96,54 +90,55 @@ public class CustomerService implements ICustomerService {
 //		return hexString.toString();
 //	}
 
-	/* (non-Javadoc)
-	 * @see org.application.services.api.ICustomerService#getByClientId(java.lang.String)
-	 */
-	public Customer getByClientId(final String clientId) {
-		return customerDao.getByClientId(clientId);
-	}
+    /* (non-Javadoc)
+     * @see org.application.services.api.ICustomerService#getByClientId(java.lang.String)
+     */
+    public Customer getByClientId(final String clientId) {
+        return this.customerDao.getByClientId(clientId);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.application.services.api.ICustomerService#generateAuthorizationCode(java.lang.String, java.util.Set)
-	 */
-	public String generateAuthorizationCode(final String clientId, final Set<String> scopes, final User user)
-			throws OAuthSystemException {
-		logger.debug("generateAuthorizationCode START| ClientId: {}, scopes: {}", new Object[] { clientId, scopes });
+    /* (non-Javadoc)
+     * @see org.application.services.api.ICustomerService#generateAuthorizationCode(java.lang.String, java.util.Set)
+     */
+    public String generateAuthorizationCode(final String clientId, final Set<String> scopes, final User user)
+            throws OAuthSystemException {
+        logger.debug("generateAuthorizationCode START| ClientId: {}, scopes: {}", new Object[]{clientId, scopes});
 
-		Customer customer = customerDao.getByClientId(clientId);
-		Authorization authorization = authorizationDao.findByClientAndUser(customer, user);
-		//authorization.setCustomer(customer);
-		//authorization.setUser(user);
-		authorization.setAuthCode(valueGenerator.generateValue(scopes.toString()));
-		authorizationDao.merge(authorization);
+        final Customer customer = this.customerDao.getByClientId(clientId);
+        final Authorization authorization = this.authorizationDao.findByClientAndUser(customer, user);
+        //authorization.setCustomer(customer);
+        //authorization.setUser(user);
+        authorization.setAuthCode(this.valueGenerator.generateValue(scopes.toString()));
+        this.authorizationDao.merge(authorization);
 
-		return authorization.getAuthCode();
-	}
-	/* (non-Javadoc)
-	 * @see org.application.services.api.ICustomerService#getAccessToken(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public AccessToken getAccessToken(final String clientId, final String clientSecret, final String authorizationCode)
-			throws OAuthSystemException {
-		AccessToken token = new AccessToken();
-		token.setAccessToken(UUID.randomUUID().toString());
-		token.setRefreshToken(UUID.randomUUID().toString());
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, 2);
-		token.setExpireTime(calendar.getTime());
+        return authorization.getAuthCode();
+    }
 
-		Authorization authorization = authorizationDao.findByClientSecret(clientId, clientSecret);
-		if (null == authorization) {
-			throw new OAuthSystemException("Nie odnaleziono Autoryzacji dla wskazanej part clientId/clientSecret");
-		}
-		authorization.setAccessToken(token);
-		authorizationDao.save(authorization);
-		return token;
-	}
+    /* (non-Javadoc)
+     * @see org.application.services.api.ICustomerService#getAccessToken(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public AccessToken getAccessToken(final String clientId, final String clientSecret, final String authorizationCode)
+            throws OAuthSystemException {
+        final AccessToken token = new AccessToken();
+        token.setAccessToken(UUID.randomUUID().toString());
+        token.setRefreshToken(UUID.randomUUID().toString());
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, 2);
+        token.setExpireTime(calendar.getTime());
 
-	/* (non-Javadoc)
-	 * @see org.application.services.api.ICustomerService#getAllCustomers()
-	 */
-	public List<Customer> getAllCustomers() {
-		return customerDao.getAll();
-	}
+        final Authorization authorization = this.authorizationDao.findByClientSecret(clientId, clientSecret);
+        if (null == authorization) {
+            throw new OAuthSystemException("Nie odnaleziono Autoryzacji dla wskazanej part clientId/clientSecret");
+        }
+        authorization.setAccessToken(token);
+        this.authorizationDao.save(authorization);
+        return token;
+    }
+
+    /* (non-Javadoc)
+     * @see org.application.services.api.ICustomerService#getAllCustomers()
+     */
+    public List<Customer> getAllCustomers() {
+        return this.customerDao.getAll();
+    }
 }

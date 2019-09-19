@@ -11,16 +11,16 @@
 <title>Java Facebook Login</title>
 </head>
 <body style="text-align: center; margin: 0 auto;">
-	<div
-		style="margin: 0 auto; background-image: url(./img/fbloginbckgrnd.jpg); height: 360px; width: 610px;">
+	<div>
 		<a href="<%=fbConnection.getFBAuthUrl()%>"> 
-		<img style="margin-top: 138px;" src="./img/facebookloginbutton.png" />
+		<img
+			style="margin-top: 138px;" src="./img/facebookloginbutton.png" />
 		</a> 
-		<br> 
-		<a href="<%=fbConnection.getGithubAuthUrl()%>"> GitHub</a>
-		<br>
-		<a href="<%=fbConnection.getInstagramAuthUrl()%>"> 
-			<img style="margin-top: 138px;" src="./img/instagram-login-button.png" />
+		<br> <a href="<%=fbConnection.getGithubAuthUrl()%>"> <img
+			style="margin-top: 138px;" src="./img/github.png" />
+		</a> 
+		<br> <a href="<%=fbConnection.getInstagramAuthUrl()%>"> <img
+			style="margin-top: 138px;" src="./img/instagram-login-button.png" />
 		</a>
 	</div>
 </body>

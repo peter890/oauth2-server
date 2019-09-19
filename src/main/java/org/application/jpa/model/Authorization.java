@@ -1,116 +1,108 @@
 package org.application.jpa.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Authorization.findByClientAndUser", query = "SELECT a FROM Authorization a WHERE a.user.userId = :userId AND a.customer.customerId = :customerId"),
-@NamedQuery(name = "Authorization.findByClientSecret", query = "SELECT a FROM Authorization a WHERE a.customer.clientId = :clientId AND a.customer.clientSecret = :clientSecret"),
-@NamedQuery(name = "Authorization.findByAccessToken", query = "SELECT a FROM Authorization a WHERE a.accessToken.accessToken = :accessToken")
+        @NamedQuery(name = "Authorization.findByClientAndUser", query = "SELECT a FROM Authorization a WHERE a.user.userId = :userId AND a.customer.customerId = :customerId"),
+        @NamedQuery(name = "Authorization.findByClientSecret", query = "SELECT a FROM Authorization a WHERE a.customer.clientId = :clientId AND a.customer.clientSecret = :clientSecret"),
+        @NamedQuery(name = "Authorization.findByAccessToken", query = "SELECT a FROM Authorization a WHERE a.accessToken.accessToken = :accessToken")
 })
 public class Authorization implements Serializable {
-	/**
-	 * UID.
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     * UID.
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Identyfikator autoryzacji.
-	 */
-	@Id
-	@GeneratedValue
-	@Column(unique = true, nullable = false)
-	private Long authorizationId;
-	
-	/**
-	 * Identyfikator u¿ytkownika.
-	 */
-	@ManyToOne(optional = false)
-	@JoinColumn(referencedColumnName = "userId")
-	private User user;
-	
-	/**
-	 * Identyfikator applikacji klienta.
-	 */
-	@ManyToOne(optional = false)
-	@JoinColumn(referencedColumnName= "customerId")
-	private Customer customer;
-	
-	/**
-	 * Autorization  code.
-	 */
-	@Column(nullable = true)
-	private String authCode;
+    /**
+     * Identyfikator autoryzacji.
+     */
+    @Id
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
+    private Long authorizationId;
 
-	@Embedded
-	private AccessToken accessToken;
+    /**
+     * Identyfikator uï¿½ytkownika.
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(referencedColumnName = "userId")
+    private User user;
 
-	/**
-	 * @return the Identyfikator autoryzacji
-	 */
-	public Long getAuthorizationId() {
-		return authorizationId;
-	}
+    /**
+     * Identyfikator applikacji klienta.
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(referencedColumnName = "customerId")
+    private Customer customer;
 
-	/**
-	 * @param Identyfikator autoryzacji the Identyfikator autoryzacji to set
-	 */
-	public void setAuthorizationId(final Long authorizationId) {
-		this.authorizationId = authorizationId;
-	}
-	
-	/**
-	 * @return the Autorization grand code
-	 */
-	public String getAuthCode() {
-		return authCode;
-	}
+    /**
+     * Autorization  code.
+     */
+    @Column(nullable = true)
+    private String authCode;
 
-	/**
-	 * @param Autorization code the Autorization grand code to set
-	 */
-	public void setAuthCode(final String authCode) {
-		this.authCode = authCode;
-	}
+    @Embedded
+    private AccessToken accessToken;
 
-	/**
-	 * @return Zwraca user
-	 */
-	@Column(name = "userId")
-	public User getUser() {
-		return user;
-	}
+    /**
+     * @return the Identyfikator autoryzacji
+     */
+    public Long getAuthorizationId() {
+        return this.authorizationId;
+    }
 
-	/**
-	 * @param user the user to set
-	 */
-	public void setUser(final User user) {
-		this.user = user;
-	}
-	@Column(name = "customerId")
-	public Customer getCustomer() {
-		return customer;
-	}
+    /**
+     * @param Identyfikator autoryzacji the Identyfikator autoryzacji to set
+     */
+    public void setAuthorizationId(final Long authorizationId) {
+        this.authorizationId = authorizationId;
+    }
 
-	public void setCustomer(final Customer customer) {
-		this.customer = customer;
-	}
+    /**
+     * @return the Autorization grand code
+     */
+    public String getAuthCode() {
+        return this.authCode;
+    }
 
-	public AccessToken getAccessToken() {
-		return accessToken;
-	}
+    /**
+     * @param Autorization code the Autorization grand code to set
+     */
+    public void setAuthCode(final String authCode) {
+        this.authCode = authCode;
+    }
 
-	public void setAccessToken(final AccessToken accessToken) {
-		this.accessToken = accessToken;
-	}
+    /**
+     * @return Zwraca user
+     */
+    @Column(name = "userId")
+    public User getUser() {
+        return this.user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(final User user) {
+        this.user = user;
+    }
+
+    @Column(name = "customerId")
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
+    public void setCustomer(final Customer customer) {
+        this.customer = customer;
+    }
+
+    public AccessToken getAccessToken() {
+        return this.accessToken;
+    }
+
+    public void setAccessToken(final AccessToken accessToken) {
+        this.accessToken = accessToken;
+    }
 }

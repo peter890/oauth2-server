@@ -1,61 +1,54 @@
 /**
- * 
+ *
  */
 package org.application.jpa.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import org.springframework.context.annotation.Lazy;
+
+import javax.persistence.*;
 
 /**
  * @author piotrek
- *
  */
 @Entity
 public class DictionaryItem {
-	@Id
-	@GeneratedValue
-	@Column(unique = true, nullable = false)
-	private Long dictionaryItemId;
-	
-	@ManyToOne
-	@JoinColumn(name = "dictionaryId", referencedColumnName = "dictionaryId")
-	@Lazy
-	private Dictionary dictionary;
+    @Id
+    @GeneratedValue
+    @Column(unique = true, nullable = false)
+    private Long dictionaryItemId;
 
-	/**
-	 * @return Zwraca dictionaryItemId
-	 */
-	public Long getDictionaryItemId() {
-		return dictionaryItemId;
-	}
+    @ManyToOne
+    @JoinColumn(name = "dictionaryId", referencedColumnName = "dictionaryId")
+    @Lazy
+    private Dictionary dictionary;
 
-	/**
-	 * @param dictionaryItemId the dictionaryItemId to set
-	 */
-	public void setDictionaryItemId(final Long dictionaryItemId) {
-		this.dictionaryItemId = dictionaryItemId;
-	}
+    /**
+     * @return Zwraca dictionaryItemId
+     */
+    public Long getDictionaryItemId() {
+        return this.dictionaryItemId;
+    }
 
-	/**
-	 * @return Zwraca dictionary
-	 */
-	public Dictionary getDictionary() {
-		return dictionary;
-	}
+    /**
+     * @param dictionaryItemId the dictionaryItemId to set
+     */
+    public void setDictionaryItemId(final Long dictionaryItemId) {
+        this.dictionaryItemId = dictionaryItemId;
+    }
 
-	/**
-	 * @param dictionary the dictionary to set
-	 */
-	public void setDictionary(final Dictionary dictionary) {
-		this.dictionary = dictionary;
-	}
-	
-	
-	
+    /**
+     * @return Zwraca dictionary
+     */
+    public Dictionary getDictionary() {
+        return this.dictionary;
+    }
+
+    /**
+     * @param dictionary the dictionary to set
+     */
+    public void setDictionary(final Dictionary dictionary) {
+        this.dictionary = dictionary;
+    }
+
+
 }

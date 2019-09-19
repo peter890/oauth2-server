@@ -1,9 +1,7 @@
 /**
- * 
+ *
  */
 package org.application.rest;
-
-import javax.inject.Inject;
 
 import org.api.model.UserDataResponse;
 import org.api.model.UserSessionDataResponse;
@@ -15,44 +13,44 @@ import org.core.common.utils.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.inject.Inject;
 
 /**
  * @author piotrek
- *
  */
 @RestController
 public class UserApiController {
-	@Inject
-	private IAuthorizationDAO authorizationDao;
-	@Inject
-	private IConverter<User, UserDataResponse> userToUserDataResponseConverter;
-	@Inject
-	private IConverter<User, UserSessionDataResponse> userToUserSessionDataResponseConverter;
+    @Inject
+    private IAuthorizationDAO authorizationDao;
+    @Inject
+    private IConverter<User, UserDataResponse> userToUserDataResponseConverter;
+    @Inject
+    private IConverter<User, UserSessionDataResponse> userToUserSessionDataResponseConverter;
 
-	@RequestMapping(value = "/user/{access_token}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<UserDataResponse> getUserData(
-			@PathVariable("access_token") final String accessToken, @RequestHeader final HttpHeaders headers) {
-		Authorization a = authorizationDao.findByAccessToken(StringUtils.decodeBase64(accessToken));
-		if (null == a) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-		return new ResponseEntity<UserDataResponse>(userToUserDataResponseConverter.convert(a.getUser()), HttpStatus.OK);
-	}
+    @RequestMapping(value = "/user/{access_token}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<UserDataResponse> getUserData(
+            @PathVariable("access_token") final String accessToken,
+            @RequestHeader final HttpHeaders headers) {
+        final Authorization a = this.authorizationDao.findByAccessToken(StringUtils.decodeBase64(accessToken));
+        if (null == a) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return new ResponseEntity<>(this.userToUserDataResponseConverter.convert(a.getUser()), HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "/session/{access_token}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<UserSessionDataResponse> getUserSessionData(
-			@PathVariable("access_token") final String accessToken, @RequestHeader final HttpHeaders headers) {
-		Authorization a = authorizationDao.findByAccessToken(StringUtils.decodeBase64(accessToken));
-		if (null == a) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-		return new ResponseEntity<UserSessionDataResponse>(userToUserSessionDataResponseConverter.convert(a.getUser()),
-				HttpStatus.OK);
-	}
+    @RequestMapping(value = "/session/{access_token}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<UserSessionDataResponse> getUserSessionData(
+            @PathVariable("access_token") final String accessToken,
+            @RequestHeader final HttpHeaders headers) {
+        final Authorization a = this.authorizationDao.findByAccessToken(StringUtils.decodeBase64(accessToken));
+        if (null == a) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return new ResponseEntity<>(this.userToUserSessionDataResponseConverter.convert(a.getUser()),
+                HttpStatus.OK);
+    }
 }

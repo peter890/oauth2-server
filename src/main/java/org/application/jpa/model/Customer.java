@@ -1,148 +1,144 @@
 package org.application.jpa.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
 /**
- * Reprezentuje pojedynczego klineta (aplikacjê klienck¹)
- * @author piotrek
+ * Reprezentuje pojedynczego klineta (aplikacjï¿½ klienckï¿½)
  *
+ * @author piotrek
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Customer.findByClientId", query = "SELECT c FROM Customer c WHERE c.clientId = :clientId")
+        @NamedQuery(name = "Customer.findByClientId", query = "SELECT c FROM Customer c WHERE c.clientId = :clientId")
 })
 public class Customer implements Serializable {
-	/**
-	 * UID.
-	 */
-	private static final long serialVersionUID = 5982450886054384010L;
-	
-	/**
-	 * Identyfiaktor customera.
-	 * Klucz g³ówny.
-	 */
-	@Id
-	@GeneratedValue
-	@Column(unique = true, nullable = false, name = "customerId")
-	private Long customerId;
-	
-	/**
-	 * Nazwa customera.
-	 */
-	@Column(nullable = false)
-	private String name;
-	
-	/**
-	 * Client ID.
-	 */
-	@Column(nullable = false, unique = true)
-	private String clientId;
-	
-	/**
-	 * Client Secret.
-	 */
-	@Column(nullable = false, unique = true)
-	private String clientSecret;
-	
-	/**
-	 * Czy klient aktywny
-	 */
-	private Boolean active;
-	/**
-	 * Url na który nale¿y przekierowaæ w celu wylogowania u¿ytkownika z wewnêtrzengo systemu uwierzytelniania.
-	 */
-	private String logoutUrl;
+    /**
+     * UID.
+     */
+    private static final long serialVersionUID = 5982450886054384010L;
 
-	/**
-	 * @return Zwraca customerId
-	 */
-	public Long getCustomerId() {
-		return customerId;
-	}
+    /**
+     * Identyfiaktor customera.
+     * Klucz gï¿½ï¿½wny.
+     */
+    @Id
+    @GeneratedValue
+    @Column(unique = true, nullable = false, name = "customerId")
+    private Long customerId;
 
-	/**
-	 * @param customerId the customerId to set
-	 */
-	public void setCustomerId(final Long customerId) {
-		this.customerId = customerId;
-	}
+    /**
+     * Nazwa customera.
+     */
+    @Column(nullable = false)
+    private String name;
 
-	/**
-	 * @return Zwraca: Nazwa customera
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Client ID.
+     */
+    @Column(nullable = false, unique = true)
+    private String clientId;
 
-	/**
-	 * @param name Nazwa customera to set
-	 */
-	public void setName(final String name) {
-		this.name = name;
-	}
+    /**
+     * Client Secret.
+     */
+    @Column(nullable = false, unique = true)
+    private String clientSecret;
 
-	/**
-	 * @return Zwraca clientId
-	 */
-	public String getClientId() {
-		return clientId;
-	}
+    /**
+     * Czy klient aktywny
+     */
+    private Boolean active;
+    /**
+     * Url na ktï¿½ry naleï¿½y przekierowaï¿½ w celu wylogowania uï¿½ytkownika z wewnï¿½trzengo systemu uwierzytelniania.
+     */
+    private String logoutUrl;
 
-	/**
-	 * @param clientId the clientId to set
-	 */
-	public void setClientId(final String clientId) {
-		this.clientId = clientId;
-	}
+    /**
+     * @return Zwraca customerId
+     */
+    public Long getCustomerId() {
+        return this.customerId;
+    }
 
-	/**
-	 * @return Zwraca clientSecret
-	 */
-	public String getClientSecret() {
-		return clientSecret;
-	}
+    /**
+     * @param customerId the customerId to set
+     */
+    public void setCustomerId(final Long customerId) {
+        this.customerId = customerId;
+    }
 
-	/**
-	 * @param clientSecret the clientSecret to set
-	 */
-	public void setClientSecret(final String clientSecret) {
-		this.clientSecret = clientSecret;
-	}
+    /**
+     * @return Zwraca: Nazwa customera
+     */
+    public String getName() {
+        return this.name;
+    }
 
-	/**
-	 * @return Zwraca: active
-	 */
-	public Boolean getActive() {
-		return active;
-	}
+    /**
+     * @param name Nazwa customera to set
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @param active the active to set
-	 */
-	public void setActive(final Boolean active) {
-		this.active = active;
-	}
-	
-	/**
-	 * Zwraca  Url na który nale¿y przekierowaæ w celu wylogowania u¿ytkownika z wewnêtrzengo systemu uwierzytelniania.
-	 * @return logoutUrl.
-	 */
-	public String getLogoutUrl() {
-		return logoutUrl;
-	}
-	
-	/**
-	 * Ustawia: Url na który nale¿y przekierowaæ w celu wylogowania u¿ytkownika z wewnêtrzengo systemu uwierzytelniania.
-	 * @param logoutUrl.
-	 */
-	public void setLogoutUrl(final String logoutUrl) {
-		this.logoutUrl = logoutUrl;
-	}
+    /**
+     * @return Zwraca clientId
+     */
+    public String getClientId() {
+        return this.clientId;
+    }
+
+    /**
+     * @param clientId the clientId to set
+     */
+    public void setClientId(final String clientId) {
+        this.clientId = clientId;
+    }
+
+    /**
+     * @return Zwraca clientSecret
+     */
+    public String getClientSecret() {
+        return this.clientSecret;
+    }
+
+    /**
+     * @param clientSecret the clientSecret to set
+     */
+    public void setClientSecret(final String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
+    /**
+     * @return Zwraca: active
+     */
+    public Boolean getActive() {
+        return this.active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(final Boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * Zwraca  Url na ktï¿½ry naleï¿½y przekierowaï¿½ w celu wylogowania uï¿½ytkownika z wewnï¿½trzengo systemu uwierzytelniania.
+     *
+     * @return logoutUrl.
+     */
+    public String getLogoutUrl() {
+        return this.logoutUrl;
+    }
+
+    /**
+     * Ustawia: Url na ktï¿½ry naleï¿½y przekierowaï¿½ w celu wylogowania uï¿½ytkownika z wewnï¿½trzengo systemu uwierzytelniania.
+     *
+     * @param logoutUrl.
+     */
+    public void setLogoutUrl(final String logoutUrl) {
+        this.logoutUrl = logoutUrl;
+    }
 }

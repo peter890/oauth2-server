@@ -1,10 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="customerDAO" class="org.application.jpa.dao.CustomerDAO" />
-	<bean id="userDAO" class="org.application.jpa.dao.UserDAO" />
-	<bean id="authorizationDAO" class="org.application.jpa.dao.AuthorizationDAO" />
-	<bean id="sessionDAO" class="org.application.jpa.dao.SessionDao" />
+    <bean id="customerDAO" class="org.application.jpa.dao.CustomerDAO"/>
+    <bean id="userDAO" class="org.application.jpa.dao.UserDAO"/>
+    <bean id="authorizationDAO" class="org.application.jpa.dao.AuthorizationDAO"/>
+    <bean id="sessionDAO" class="org.application.jpa.dao.SessionDAO"/>
 </beans>
